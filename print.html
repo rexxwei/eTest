@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz Questions - Print Version</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f5f5f5;
+      padding: 20px;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: white;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 30px;
+      border-bottom: 3px solid #2c3e50;
+      padding-bottom: 20px;
+    }
+
+    .header h1 {
+      font-size: 32px;
+      color: #2c3e50;
+      margin-bottom: 5px;
+    }
+
+    .header p {
+      color: #666;
+      font-size: 16px;
+    }
+
+    .question-block {
+      margin-bottom: 35px;
+      padding-bottom: 25px;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    .question-block:last-child {
+      border-bottom: none;
+    }
+
+    .question-number {
+      font-weight: 700;
+      color: #2c3e50;
+      font-size: 18px;
+      margin-bottom: 8px;
+      display: inline;
+      margin-right: 8px;
+    }
+
+    .question-text {
+      font-size: 18px;
+      font-weight: 600;
+      color: #1a1a1a;
+      margin-bottom: 15px;
+      line-height: 1.5;
+      display: inline;
+    }
+
+    .options {
+      margin-left: 20px;
+    }
+
+    .option {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 12px;
+      font-size: 16px;
+      line-height: 1.4;
+    }
+
+    .option-label {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      min-width: 28px;
+      background: #f0f0f0;
+      border: 2px solid #999;
+      border-radius: 4px;
+      margin-right: 12px;
+      font-weight: 600;
+      color: #333;
+      font-size: 14px;
+    }
+
+    .option-text {
+      flex: 1;
+      color: #444;
+    }
+
+    .answer-section {
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px dashed #ddd;
+      font-size: 14px;
+      color: #555;
+    }
+
+    .answer-section strong {
+      color: #2c3e50;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 40px;
+      font-size: 18px;
+      color: #666;
+    }
+
+    .error {
+      background: #fee;
+      border: 1px solid #f99;
+      color: #c33;
+      padding: 15px;
+      border-radius: 4px;
+      margin: 20px 0;
+    }
+
+    /* Print styles */
+    @media print {
+      body {
+        background: white;
+        padding: 0;
+      }
+
+      .container {
+        max-width: 100%;
+        padding: 0;
+        box-shadow: none;
+        border-radius: 0;
+      }
+
+      .header {
+        page-break-after: avoid;
+      }
+
+      .question-block {
+        page-break-inside: avoid;
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+      }
+
+      .no-print {
+        display: none;
+      }
+
+      @page {
+        margin: 0.5in;
+      }
+    }
+
+    .controls {
+      margin-bottom: 20px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      transition: all 0.3s;
+    }
+
+    .btn-primary {
+      background: #2c3e50;
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: #1a252f;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+
+    .btn-secondary {
+      background: #ecf0f1;
+      color: #2c3e50;
+      border: 1px solid #bdc3c7;
+    }
+
+    .btn-secondary:hover {
+      background: #d5dbdb;
+    }
+
+    .stats {
+      background: #ecf0f1;
+      padding: 12px 16px;
+      border-radius: 4px;
+      font-size: 14px;
+      color: #2c3e50;
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="header no-print">
+    <h1>📋 Quiz Questions</h1>
+    <p id="stats" class="stats"></p>
+  </div>
+
+  <div class="controls no-print">
+    <button class="btn btn-primary" onclick="loadQuestions()">🔄 Load Questions</button>
+    <button class="btn btn-primary" onclick="shuffleAllChoices()">🔀 Shuffle All Choices</button>
+    <button class="btn btn-secondary" onclick="window.print()">🖨️ Print</button>
+  </div>
+
+  <div id="content">
+    <div class="loading">Loading questions...</div>
+  </div>
+</div>
+
+<script>
+  let questions = [];
+
+  // Fisher-Yates shuffle
+  function shuffleArray(arr) {
+    const copy = [...arr];
+    for (let i = copy.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [copy[i], copy[j]] = [copy[j], copy[i]];
+    }
+    return copy;
+  }
+
+  // Load questions from JSON
+  async function loadQuestions() {
+    try {
+      const response = await fetch('./assets/questions/ques_mcsa.json');
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+      
+      questions = await response.json();
+      
+      // Shuffle question order
+      questions = shuffleArray(questions);
+      
+      // Shuffle choices for each question
+      questions = questions.map(q => ({
+        ...q,
+        shuffledOptions: shuffleArray(q.options)
+      }));
+
+      renderQuestions();
+      updateStats();
+    } catch (error) {
+      document.getElementById('content').innerHTML = `
+        <div class="error">
+          ❌ Error loading questions: ${error.message}
+        </div>
+      `;
+      console.error('Error:', error);
+    }
+  }
+
+  // Shuffle all choices again
+  function shuffleAllChoices() {
+    questions = questions.map(q => ({
+      ...q,
+      shuffledOptions: shuffleArray(q.options)
+    }));
+    renderQuestions();
+  }
+
+  // Render questions to page
+  function renderQuestions() {
+    if (questions.length === 0) {
+      document.getElementById('content').innerHTML = '<div class="loading">No questions loaded</div>';
+      return;
+    }
+
+    const labels = ['A', 'B', 'C', 'D', 'E', 'F'];
+    
+    const html = questions.map((q, idx) => {
+      const shuffledOpts = q.shuffledOptions || q.options;
+      const optionsHtml = shuffledOpts.map((opt, optIdx) => `
+        <div class="option">
+          <div class="option-label">${labels[optIdx]}</div>
+          <div class="option-text">${opt}</div>
+        </div>
+      `).join('');
+
+      return `
+        <div class="question-block">
+          <div class="question-number">Q${idx + 1}.</div><div class="question-text">${q.text}</div>
+          <div class="options">
+            ${optionsHtml}
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    document.getElementById('content').innerHTML = html;
+  }
+
+  // Update stats
+  function updateStats() {
+    const statsEl = document.getElementById('stats');
+    statsEl.textContent = `Total Questions: ${questions.length}`;
+  }
+
+  // Load on page load
+  loadQuestions();
+</script>
+
+</body>
+</html>

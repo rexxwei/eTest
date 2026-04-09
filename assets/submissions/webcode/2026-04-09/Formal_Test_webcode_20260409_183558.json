@@ -1,0 +1,7 @@
+{
+  "name": "Formal Test",
+  "email": "test@gmail.com",
+  "code": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"UTF-8\"/>\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"/>\n  <title>My Page</title>\n<style>\n\n</style>\n</head>\n<body>\n\n<script>\nlet name = \"Jacky\";\nlet salary = 2500.00;\n\nconsole.log(name);\nconsole.log(salary+1000);\n\nalert(`Hi, my name is ${name}, my income is ${salary}`);\n</script>\n</body>\n</html>",
+  "timestamp": "2026-04-09T22:35:58.340Z",
+  "folder": "assets/submissions/webcode/2026-04-09"
+}

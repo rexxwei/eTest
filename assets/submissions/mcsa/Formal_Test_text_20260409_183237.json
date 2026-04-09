@@ -1,0 +1,10 @@
+{
+  "name": "Formal Test",
+  "email": "test@gmail.com",
+  "score": "90%",
+  "correct": 9,
+  "total_mc": 10,
+  "time_taken": "01:16",
+  "submitted_at": "4/9/2026, 6:32:37 PM",
+  "answers": "Q1 [Multiple Choice]: MBR support up to ____ partitions.\nYour Answer: B: 4\nCorrect Answer: B: 4\nResult: \u2705 Correct\n\n---\n\nQ2 [Multiple Choice]: Which keyword is used to declare a variable.\nYour Answer: A: let\nCorrect Answer: A: let\nResult: \u2705 Correct\n\n---\n\nQ3 [Multiple Choice]: GPT support up to ____ partitions.\nYour Answer: B: 128\nCorrect Answer: B: 128\nResult: \u2705 Correct\n\n---\n\nQ4 [Multiple Choice]: What is the result of 26 % 5 ?\nYour Answer: A: 1\nCorrect Answer: ?: 6\nResult: \u274c Incorrect\n\n---\n\nQ5 [Multiple Choice]: What is the data type of 120.23?\nYour Answer: A: float\nCorrect Answer: A: float\nResult: \u2705 Correct\n\n---\n\nQ6 [Multiple Choice]: What is a variable?\nYour Answer: C: a container\nCorrect Answer: C: a container\nResult: \u2705 Correct\n\n---\n\nQ7 [Multiple Choice]: Which is not a place to write JavaScript code\nYour Answer: D: header\nCorrect Answer: D: header\nResult: \u2705 Correct\n\n---\n\nQ8 [Multiple Choice]: How many disks RAID 1 will need to work?\nYour Answer: B: 2\nCorrect Answer: B: 2\nResult: \u2705 Correct\n\n---\n\nQ9 [Multiple Choice]: Which one is not a data type in JavaScript?\nYour Answer: C: amount\nCorrect Answer: C: amount\nResult: \u2705 Correct\n\n---\n\nQ10 [Multiple Choice]: NTFS doesn't provide _______ benefit. \nYour Answer: B: supporting more file types\nCorrect Answer: B: supporting more file types\nResult: \u2705 Correct"
+}

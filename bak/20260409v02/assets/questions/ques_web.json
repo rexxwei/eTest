@@ -1,0 +1,6 @@
+[
+  {
+    "type": "coding",
+    "text": "Tasks: \n1.Define two variables, one for the name of a person and another for salary(consider the data types). \n2. Print these two variables to the console but add 1000 to the salary.\n(extra credit) Print a statement 'Hi, my name is XXX, my income is XXX.'"
+  }
+]
